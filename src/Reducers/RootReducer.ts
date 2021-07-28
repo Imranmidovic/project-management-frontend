@@ -8,4 +8,5 @@ const rootReducer = combineReducers(
         subProjects: subProjectsReducer
     }
 )
+export type rootState = ReturnType<typeof rootReducer>;
 export default rootReducer;

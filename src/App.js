@@ -1,17 +1,25 @@
 import "./App.css";
-import {getProjects} from "./Api/api";
-import { useEffect, useState } from "react";
+import { Paper, Tab, Tabs } from "@material-ui/core";
+import Projects from "./Components/Projects";
 
 function App() {
-  const [projects, setProjects] = useState([]);
-  useEffect(() =>{
 
-  },[])
-  return <div className="App">
-      {projects && projects.map((project) => (
-        <p>{project.Title}</p>
-      ))}
-  </div>;
+  return (
+    <div className="App">
+      <Paper square>
+        <Tabs
+          value={0}
+          variant="fullWidth"
+          indicatorColor="secondary"
+          textColor="secondary"
+          aria-label="icon label tabs example"
+        >
+          <Tab  label="Projects" />
+        </Tabs>
+      </Paper>
+      <Projects />
+    </div>
+  );
 }
 
 export default App;
