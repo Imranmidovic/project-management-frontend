@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
-import { getProjects } from "../Api/api";
+import { addProject, getProject, getProjects } from "../Api/api";
+import { ProjectType } from "../Store/ProjectTypes";
 import {
   ADD_PROJECT,
   DELETE_PROJECT,
@@ -17,22 +18,27 @@ export const getAllProjectsAction = () => {
       .catch((err) => console.error(err));
   };
 };
-export const getProjectAction = () => {
-  return { type: GET_PROJECT };
+export const getProjectAction = (id: number) => {
+  return (dispatch: Dispatch) => {
+    return getProject(id).then((res) => {
+      dispatch({ type: GET_PROJECT, payload: res.data });
+    });
+  };
 };
 export const addProjectAction = (project: any) => {
-  return {
-    type: ADD_PROJECT,
-    payload: project,
-  };
+  return(dispatch: Dispatch) => {
+    return addProject(project).then((res) => {
+      dispatch({type: ADD_PROJECT, payload: res.data})
+    })
+  }
 };
-export const deleteProjectAction = (project: any) => {
+export const deleteProjectAction = (id: number) => {
   return {
     type: DELETE_PROJECT,
-    payload: project,
+    payload: id,
   };
 };
-export const updateProjectAction = (project: any) => {
+export const updateProjectAction = (project: ProjectType) => {
   return {
     type: UPDATE_PROJECT,
     payload: project,

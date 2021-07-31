@@ -9,8 +9,7 @@ const projectsReducer = (state = initialState, action: AnyAction) => {
     case ADD_PROJECT:
       return [...state, action.payload];
     case DELETE_PROJECT:
-
-      return state;
+      return state.filter(project => project.id !== action.payload);
     default:
       return state;
   }
