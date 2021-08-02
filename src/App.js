@@ -1,19 +1,28 @@
 import "./App.css";
 import Projects from "./Components/Projects";
 import NavBar from "./Components/NavBar";
-import { addProjectAction } from "./Actions/Actions";
-import { useDispatch } from "react-redux";
-
+import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import ProjectComponent from "./Components/ProjectComponent";
+import { Paper } from "@material-ui/core";
 function App() {
-  const dispatch = useDispatch()
-  function AddProject(){
-    dispatch(addProjectAction({id: 3, title: "Projekat2"}))
-  }
+  const currentProject = useSelector((state) => state.currentProject);
+
   return (
     <div className="App">
-      <NavBar />
-      <Projects />
-      <button onClick={() => AddProject()}>Add project</button>
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route exact path="/">
+            <div style={{margin: '50px'}}>
+              <Projects />
+            </div>
+          </Route>
+          <Route path="/Projects/:id">
+            <ProjectComponent project={currentProject} />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

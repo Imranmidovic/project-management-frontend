@@ -1,4 +1,4 @@
-import { AppBar, Button, IconButton, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +24,6 @@ const NavBar = () => {
             <Typography variant="h6" className={classes.title}>
               Projects
             </Typography>
-            <Button color="inherit">Login</Button>
           </Toolbar>
         </AppBar>
       </div>

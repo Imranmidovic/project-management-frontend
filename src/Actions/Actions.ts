@@ -17,14 +17,14 @@ export const getAllProjectsAction = () => {
       })
       .catch((err) => console.error(err));
   };
-};
-export const getProjectAction = (id: number) => {
+};export const getProjectAction = (id: number) => {
   return (dispatch: Dispatch) => {
     return getProject(id).then((res) => {
       dispatch({ type: GET_PROJECT, payload: res.data });
     });
   };
 };
+
 export const addProjectAction = (project: any) => {
   return(dispatch: Dispatch) => {
     return addProject(project).then((res) => {
