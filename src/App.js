@@ -4,7 +4,6 @@ import NavBar from "./Components/NavBar";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ProjectComponent from "./Components/ProjectComponent";
-import { Paper } from "@material-ui/core";
 function App() {
   const currentProject = useSelector((state) => state.currentProject);
 
@@ -14,7 +13,7 @@ function App() {
         <NavBar />
         <Switch>
           <Route exact path="/">
-            <div style={{margin: '50px'}}>
+            <div className="m-12">
               <Projects />
             </div>
           </Route>

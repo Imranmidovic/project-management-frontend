@@ -32,7 +32,7 @@ export enum DialogSize {
 }
 
 const Dialog = (props: DialogProps): JSX.Element => {
-	const { size, className, open, children, onClose } = props;
+	const { size, className, open, children } = props;
 	const [isOpen, setIsOpen] = useState<boolean>(open || false);
 
 	if (open !== isOpen) {
@@ -62,18 +62,7 @@ const Dialog = (props: DialogProps): JSX.Element => {
 			className={cx("rounded shadow-md", sizeClass, className)}
 		>
 			<div className="flex flex-col h-full">
-				{children.map((child: JSX.Element, index: number) => {
-					if (child.type === Dialog.Header)
-						return React.cloneElement(child, {
-							...child.props,
-							key: index,
-							onClose: () => {
-								onClose && onClose(false);
-								setIsOpen(false);
-							},
-						});
-					return child;
-				})}
+				{children}
 			</div>
 		</Modal>
 	);

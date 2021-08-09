@@ -1,11 +1,15 @@
 import { Dispatch } from "redux";
-import { addProject, getProject, getProjects } from "../Api/api";
+import { addProject, addSubProject, getProject, getProjects, getSubProject, getSubProjects } from "../Api/api";
 import { ProjectType } from "../Store/ProjectTypes";
+import { SubProjectType, SubProjectAddType } from "../Store/SubProjectTypes";
 import {
   ADD_PROJECT,
+  ADD_SUBPROJECT,
   DELETE_PROJECT,
   GET_PROJECT,
   GET_PROJECTS,
+  GET_SUBPROJECT,
+  GET_SUBPROJECTS,
   UPDATE_PROJECT,
 } from "./Constants";
 
@@ -44,3 +48,25 @@ export const updateProjectAction = (project: ProjectType) => {
     payload: project,
   };
 };
+//SUBPROJECTS
+export const getAllSubProjectsAction = (fk: number) => {
+  return (dispatch: Dispatch) => {
+    return getSubProjects().then((res) => {
+      dispatch({type: GET_SUBPROJECTS, payload: res.data.filter((item: SubProjectType) => item.fk === fk)});
+    })
+  }
+}
+export const getSubProjectAction = (id:  number) => {
+  return(dispatch: Dispatch) => {
+    return getSubProject(id).then((res) => {
+      dispatch({type: GET_SUBPROJECT, payload: res.data})
+    })
+  }
+}
+export const addSubProjectAction = (subProject: SubProjectAddType) => {
+  return (dispatch: Dispatch) => {
+    return addSubProject(subProject).then((res) => {
+      dispatch({type: ADD_SUBPROJECT, payload: res.data});
+    })
+  }
+}
