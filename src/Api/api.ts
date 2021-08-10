@@ -11,13 +11,13 @@ export const getProject = async (id: number) =>
 
 export const addProject = (project: ProjectAddType) => 
   api.post("/Projects", project);
-export const updateProject = (project: ProjectType, id: number) =>
-  api.put(`/Projects/${id}`, project);
+export const updateProject = (project: ProjectType) =>
+  api.put(`/Projects/${project.id}`, project);
 export const deleteProject = (id: number) =>
   api.delete(`/Projects/${id}`);
 export const getSubProjects = async () => await api.get("/SubProjects");
 export const getSubProject = async(id: number) => api.get(`/SubProjects/${id}`);
 export const addSubProject =  (subProject: any) => api.post(`/SubProjects`, subProject);
 export const removeSubProject = (id: number) => api.delete(`/SubProjects/${id}`);
-export const updateSubProject = (subProject: any, id: number) => api.put(`/SubProjects/${id}`, subProject);
+export const updateSubProject = (subProject: any) => api.put(`/SubProjects/${subProject.id}`, subProject);
 export default api;

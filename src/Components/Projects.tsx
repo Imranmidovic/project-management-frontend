@@ -11,13 +11,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProjectsAction, getProjectAction } from "../Actions/Actions";
 import { rootState } from "../Reducers/RootReducer";
 import { ProjectType } from "../Store/ProjectTypes";
-import ProjectTableRow from "./ProjectTableRow";
 import { useHistory } from "react-router-dom";
-import { Button, withStyles } from "@material-ui/core";
+import { Button, Icon, withStyles } from "@material-ui/core";
 import { useState } from "react";
 import AddProjectModal from "./AddProjectModal";
+import UpdateProjectModal from "./UpdateProjectModal";
+import { format } from "date-fns";
 const Projects = () => {
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isModalAdd, setIsModalAdd] = useState(false);
+  const [isModalUpdate, setIsModalUpdate] = useState(false);
+  const [currentProject, setCurrentProject] = useState<ProjectType | undefined>(
+    undefined
+  );
   const projects = useSelector((state: rootState) => state.projects);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -53,24 +58,51 @@ const Projects = () => {
           </TableHead>
           <TableBody>
             {projects.map((project: ProjectType) => (
-              <TableRow
-                key={project.id}
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  dispatch(getProjectAction(project.id));
-                  history.push(`/Projects/${project.id}`);
-                }}
-              >
-                <ProjectTableRow project={project} />
+              <TableRow key={project.id} style={{ cursor: "pointer" }}>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  width="45%"
+                  onClick={() => {
+                    dispatch(getProjectAction(project.id));
+                    history.push(`/Projects/${project.id}`);
+                  }}
+                >
+                  {project.title}
+                </TableCell>
+                <TableCell width="45%">
+                  {format(new Date(project.started), "dd/MM/yyyy")}
+                </TableCell>
+                <TableCell
+                  onClick={() => {
+                    setCurrentProject(project);
+                    setIsModalUpdate(true);
+                  }}
+                >
+                  <Icon color="primary">settings</Icon>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Button variant="contained" color="secondary" style={{marginTop: '20px'}} onClick={() => setIsOpenModal(true)}>
+      <Button
+        variant="contained"
+        color="secondary"
+        style={{ marginTop: "20px" }}
+        onClick={() => setIsModalAdd(true)}
+      >
         Add Project
       </Button>
-      <AddProjectModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}/>
+      <AddProjectModal
+        isOpenModal={isModalAdd}
+        setIsOpenModal={setIsModalAdd}
+      />
+      <UpdateProjectModal
+        isOpenModal={isModalUpdate}
+        setIsOpenModal={setIsModalUpdate}
+        project={currentProject}
+      />
     </div>
   );
 };

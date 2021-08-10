@@ -1,6 +1,5 @@
 import { Button, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, withStyles } from "@material-ui/core";
 import {useHistory} from "react-router-dom";
-import AddProjectModal from "./AddProjectModal";
 const ProjectComponent = ({project}: any) => {
     const history = useHistory()
     const useStyles = makeStyles({

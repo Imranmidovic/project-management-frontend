@@ -1,6 +1,16 @@
 import { Dispatch } from "redux";
-import { addProject, addSubProject, getProject, getProjects, getSubProject, getSubProjects } from "../Api/api";
-import { ProjectType } from "../Store/ProjectTypes";
+import {
+  addProject,
+  addSubProject,
+  deleteProject,
+  getProject,
+  getProjects,
+  getSubProject,
+  getSubProjects,
+  updateProject,
+  updateSubProject,
+} from "../Api/api";
+import { ProjectAddType, ProjectType } from "../Store/ProjectTypes";
 import { SubProjectType, SubProjectAddType } from "../Store/SubProjectTypes";
 import {
   ADD_PROJECT,
@@ -11,6 +21,7 @@ import {
   GET_SUBPROJECT,
   GET_SUBPROJECTS,
   UPDATE_PROJECT,
+  UPDATE_SUBPROJECT,
 } from "./Constants";
 
 export const getAllProjectsAction = () => {
@@ -21,7 +32,8 @@ export const getAllProjectsAction = () => {
       })
       .catch((err) => console.error(err));
   };
-};export const getProjectAction = (id: number) => {
+};
+export const getProjectAction = (id: number) => {
   return (dispatch: Dispatch) => {
     return getProject(id).then((res) => {
       dispatch({ type: GET_PROJECT, payload: res.data });
@@ -29,44 +41,58 @@ export const getAllProjectsAction = () => {
   };
 };
 
-export const addProjectAction = (project: any) => {
-  return(dispatch: Dispatch) => {
+export const addProjectAction = (project: ProjectAddType) => {
+  return (dispatch: Dispatch) => {
     return addProject(project).then((res) => {
-      dispatch({type: ADD_PROJECT, payload: res.data})
-    })
-  }
+      dispatch({ type: ADD_PROJECT, payload: res.data });
+    });
+  };
 };
 export const deleteProjectAction = (id: number) => {
-  return {
-    type: DELETE_PROJECT,
-    payload: id,
+  return (dispatch: Dispatch) => {
+    return deleteProject(id).then(() => {
+      dispatch({ type: DELETE_PROJECT, payload: id });
+    });
   };
 };
 export const updateProjectAction = (project: ProjectType) => {
-  return {
-    type: UPDATE_PROJECT,
-    payload: project,
+  return (dispatch: Dispatch) => {
+    return updateProject(project).then(() =>
+      getProjects().then((res) => {
+        dispatch({ type: UPDATE_PROJECT, payload: res.data });
+      })
+    );
   };
 };
 //SUBPROJECTS
 export const getAllSubProjectsAction = (fk: number) => {
   return (dispatch: Dispatch) => {
     return getSubProjects().then((res) => {
-      dispatch({type: GET_SUBPROJECTS, payload: res.data.filter((item: SubProjectType) => item.fk === fk)});
-    })
-  }
-}
-export const getSubProjectAction = (id:  number) => {
-  return(dispatch: Dispatch) => {
+      dispatch({
+        type: GET_SUBPROJECTS,
+        payload: res.data.filter((item: SubProjectType) => item.fk === fk),
+      });
+    });
+  };
+};
+export const getSubProjectAction = (id: number) => {
+  return (dispatch: Dispatch) => {
     return getSubProject(id).then((res) => {
-      dispatch({type: GET_SUBPROJECT, payload: res.data})
-    })
-  }
-}
+      dispatch({ type: GET_SUBPROJECT, payload: res.data });
+    });
+  };
+};
 export const addSubProjectAction = (subProject: SubProjectAddType) => {
   return (dispatch: Dispatch) => {
     return addSubProject(subProject).then((res) => {
-      dispatch({type: ADD_SUBPROJECT, payload: res.data});
-    })
-  }
-}
+      dispatch({ type: ADD_SUBPROJECT, payload: res.data });
+    });
+  };
+};
+export const updateSubProjectAction = (subProject: SubProjectType) => {
+  return (dispatch: Dispatch) => {
+    return updateSubProject(subProject).then((res) => {
+      dispatch({ type: UPDATE_SUBPROJECT, payload: res.data });
+    });
+  };
+};
